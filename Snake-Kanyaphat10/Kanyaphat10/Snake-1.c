@@ -67,15 +67,7 @@ void runSnakeGame(struct SnakeGame* game) {
     // Move cursor back to top
     printf("\e[%iA", ROWS + 2);
 
-    (*game).head = 0;
-    (*game).tail = 0;
-    (*game).x[(*game).head] = COLS / 2;
-    (*game).y[(*game).head] = ROWS / 2;
-    (*game).gameover = 0;
-    (*game).xdir = 1;
-    (*game).ydir = 0;
-    (*game).applex = -1;
-    (*game).heartsEaten = 0;
+    //
 
     while (!(*game).quit && !(*game).gameover) {
       if ((*game).applex < 0) {
@@ -132,7 +124,7 @@ void runSnakeGame(struct SnakeGame* game) {
       select(STDIN_FILENO + 1, &fds, NULL, NULL, &tv);
       if (FD_ISSET(STDIN_FILENO, &fds)) {
         int ch = getchar();
-        if (ch == 27 || ch == 'q') {
+        if (ch == 27 || ch == 'n') {
           (*game).quit = 1;
         } else if (ch == 'a' && (*game).xdir != 1) {
           (*game).xdir = -1;
@@ -185,15 +177,7 @@ void runSnakeGameNormal(struct SnakeGame* game) {
     // Move cursor back to top
     printf("\e[%iA", ROWS + 2);
 
-    (*game).head = 0;
-    (*game).tail = 0;
-    (*game).x[(*game).head] = COLS / 2;
-    (*game).y[(*game).head] = ROWS / 2;
-    (*game).gameover = 0;
-    (*game).xdir = 1;
-    (*game).ydir = 0;
-    (*game).applex = -1;
-    (*game).heartsEaten = 0;
+    //
 
     while (!(*game).quit && !(*game).gameover) {
       if ((*game).applex < 0) {
@@ -304,15 +288,7 @@ void runSnakeGameHard(struct SnakeGame* game) {
     // Move cursor back to top
     printf("\e[%iA", ROWS + 2);
 
-    (*game).head = 0;
-    (*game).tail = 0;
-    (*game).x[(*game).head] = COLS / 2;
-    (*game).y[(*game).head] = ROWS / 2;
-    (*game).gameover = 0;
-    (*game).xdir = 1;
-    (*game).ydir = 0;
-    (*game).applex = -1;
-    (*game).heartsEaten = 0;
+    //
 
     while (!(*game).quit && !(*game).gameover) {
       if ((*game).applex < 0) {
@@ -423,14 +399,7 @@ void runSnakeGameGod(struct SnakeGame* game) {
     // Move cursor back to top
     printf("\e[%iA", ROWS + 2);
 
-    (*game).head = 0;
-    (*game).tail = 0;
-    (*game).x[(*game).head] = COLS / 2;
-    (*game).y[(*game).head] = ROWS / 2;
-    (*game).gameover = 0;
-    (*game).xdir = 1;
-    (*game).ydir = 0;
-    (*game).applex = -1;
+
 
     while (!(*game).quit && !(*game).gameover) {
       if ((*game).applex < 0) {
