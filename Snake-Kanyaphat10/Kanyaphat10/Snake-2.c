@@ -196,33 +196,9 @@ int main(){
         printf("\n Enter option no. : ");
         scanf("%d", &option);
         delay(option);
-        if(option == 1)
+        if(option < 5)
         {
             delay(option);
-            struct SnakeGame game;
-            initializeGame(&game);
-            runSnakeGame(&game, option);
-            cleanupGame(&game);
-            return 0;
-        }
-        else if(option == 2)
-        {
-            struct SnakeGame game;
-            initializeGame(&game);
-            runSnakeGame(&game, option);
-            cleanupGame(&game);
-            return 0;
-        }
-        else if(option == 3)
-        {
-            struct SnakeGame game;
-            initializeGame(&game);
-            runSnakeGame(&game, option);
-            cleanupGame(&game);
-            return 0;
-        }
-        else if(option == 4)
-        {
             struct SnakeGame game;
             initializeGame(&game);
             runSnakeGame(&game, option);
