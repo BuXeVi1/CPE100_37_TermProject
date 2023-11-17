@@ -63,7 +63,7 @@ void delay(int mode) {
 }
 
 //EASY
-void runSnakeGame(struct SnakeGame* game, int time) {
+void runSnakeGame(struct SnakeGame* game, int key) {
   while (!(*game).quit) {
     // Render table
     printf("┌");
@@ -132,7 +132,7 @@ void runSnakeGame(struct SnakeGame* game, int time) {
 
       usleep(speed);
 
-      usleep(time);
+      
 
       // Read keyboard
       struct timeval tv;
