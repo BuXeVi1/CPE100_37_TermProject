@@ -1,1 +1,0 @@
-printf("\n5. Exit game");
