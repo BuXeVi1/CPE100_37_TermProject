@@ -251,11 +251,15 @@ int play() {
     int check=1;
     
 
-    FILE *file = fopen("rank.txt", "r"), *file2 = fopen("rank.txt", "a+");
+    FILE *file = fopen("rank.csv", "r"), *file2 = fopen("rank.csv", "a+");
     if (file == NULL) {
-        printf("Error: Cannot open file ");
-        return 1;
-    }
+        file = fopen("rank.csv", "w");
+        if (file != NULL) {
+            printf("The file is created.\n");
+        } else {
+            printf("The file was not created.\n");
+        }
+    } 
 
     if (file2 == NULL) {
         printf("Error: Cannot open file ");
@@ -302,7 +306,7 @@ int play() {
     for(int i = 0; i < numStudents; i++){
         printf("Student %d: %s, Score = %d\n", i+1, students[i].name, students[i].score);
     }
-    char outputFileName[100]={"rank.txt"};
+    char outputFileName[100]={"rank.csv"};
 
     writeToFile(students, numStudents, outputFileName);
     printf("End of program. Goodbye.\n");
