@@ -37,7 +37,7 @@ void MoveCursorToXY(unsigned short x, unsigned short y) {          // moves the 
 #define BOARD_HEIGHT 20
 #define PADDLE_1_LENGTH 5
 #define PADDLE_2_LENGTH 5
-#define END_SCORE 10
+int EndScore=0;
 
 
 // Initialize positions of paddles and ball on the screen
@@ -69,13 +69,14 @@ void instructionScreen(){
             "    s : move down                   down arrow : move down\n"
             "\nMove the paddles to catch the ping pong ball.\n"
             "For each time your component fails to catch the ball, you get 1 point.\n"
-            "The goal is to reach a score of %d. The first player to reach %d points wins."
+            "The goal is to reach the end score. The first player to reach will be the winner."
             "\n\nYou can pause/contine in the middle of the game by pressing P\n"
             "You can exit the game by pressing ESC. (but there won't be a score record)\n"
-            "\nPress any key to to continue to the game...", END_SCORE, END_SCORE
-        );
-        if (getch() == ESCAPE_KEY)
-            exit(0);
+            "\nSet your end score : ");
+	scanf("%d", &EndScore);
+	printf("\n\nPress any key to to continue to the game...");
+	if (getch() == ESCAPE_KEY)
+        exit(0);
     system("cls");
 }
 
@@ -156,7 +157,7 @@ void UpdateFrame1() {
 	system("cls");
 	printf( "Game Over! "			// game over
 			"\nBetter luck next time, Player %d."
-			"\n(Press C to continue...)", (player1.score == END_SCORE) + 1);
+			"\n(Press C to continue...)", (player1.score == EndScore) + 1);
 	char key;
 	do {
 		key = getch();
@@ -237,7 +238,7 @@ void ChangeBallDirection() {
 			ball.direction = rand()%4;
 			MoveCursorToXY(60, 4);
 			printf("%hu", ++player2.score);		//update the score 
-			if(player2.score == END_SCORE)
+			if(player2.score == EndScore)
 				game_on_flag_1 = FALSE;
 		}
 	}
@@ -254,7 +255,7 @@ void ChangeBallDirection() {
 			ball.direction = rand()%4;
 			MoveCursorToXY(30, 4);
 			printf("%hu", ++player1.score);		//update the score 
-			if(player1.score == END_SCORE)
+			if(player1.score == EndScore)
 				game_on_flag_1 = FALSE;
 		}
 	}
@@ -284,7 +285,7 @@ unsigned short RecordScore() {
 		case 'Y':
 		case 'y':
 			system("cls");
-			info = fopen("pong_score_record.txt", "r");
+			info = fopen("pong_score_record", "r");
 			char ch;
 			while((ch = fgetc(info)) != EOF)
 				printf("%c", ch);
