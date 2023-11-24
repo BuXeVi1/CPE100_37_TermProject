@@ -63,7 +63,7 @@ void delay(int mode) {
 }
 
 //EASY
-void runSnakeGame(struct SnakeGame* game, int time) {
+void runSnakeGame(struct SnakeGame* game, int key) {
   while (!(*game).quit) {
     // Render table
     printf("┌");
@@ -132,7 +132,7 @@ void runSnakeGame(struct SnakeGame* game, int time) {
 
       usleep(speed);
 
-      usleep(time);
+      
 
       // Read keyboard
       struct timeval tv;
@@ -187,7 +187,7 @@ int main(){
     int option;
     while (option!=6)
     {
-        printf("Select your difficulty from obtions below");
+        printf("Select your difficulty from options below");
         printf("\n1. Easy");
         printf("\n2. Normal");
         printf("\n3. Hard");
