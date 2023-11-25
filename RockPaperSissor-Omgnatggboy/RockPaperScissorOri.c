@@ -12,6 +12,7 @@ void addGameToHistory(const char playerName[], int win, int loss, int draw);
 void searchGameHistory(const char playerName[]);
 void Endscreen();
 void playGame();
+void _Exit( int exit_argument );
 
 typedef struct {
         char playerName[50];
@@ -46,8 +47,9 @@ int main(){
             break;
         case 3:
             Endscreen();
+            break;
         default:
-            printf("Invalid choice. Please enter 1 or 2.\n");
+            printf("Invalid choice. Please enter 1 or 2. or 3.\n");
             break;
     }
     }
@@ -192,11 +194,13 @@ void playGame(){
             scanf("%c",&keepPlaying);
         }while(keepPlaying != 'y' && keepPlaying != 'Y'&& keepPlaying != 'n' && keepPlaying != 'N');
         system("@cls||clear");
+        
     }
 }
 
 void Endscreen(){
     printf("Thank you for playing!\n");
     clock_t start_time = clock(); 
-    while (clock() < start_time + 1600);
+    while (clock() < start_time + 800);
+    _Exit(0);
 }
