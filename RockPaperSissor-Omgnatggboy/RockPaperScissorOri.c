@@ -1,4 +1,5 @@
 //still broken xD
+//play in .exe file
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -33,7 +34,7 @@ int main(){
     printf("2. Search game history\n");
     printf("3. Exit game\n");
 
-    printf("Enter your choice (1/2): ");
+    printf("Enter your choice (1/2/3): ");
     scanf("%d", &choice);
 
     switch(choice) {
@@ -41,7 +42,7 @@ int main(){
             playGame();
             break;
         case 2:
-            searchGameHistory(const char playerName[]);
+            
             break;
         case 3:
             Endscreen();
@@ -186,7 +187,7 @@ void playGame(){
         addGameToHistory(playerName, win, loss, draw);
                
         do{
-            printf("Do you want to Keep playing? [K/N]: ");
+            printf("Do you want to Keep playing? [Y/N]: ");
             fflush(stdin);
             scanf("%c",&keepPlaying);
         }while(keepPlaying != 'y' && keepPlaying != 'Y'&& keepPlaying != 'n' && keepPlaying != 'N');
@@ -195,7 +196,7 @@ void playGame(){
 }
 
 void Endscreen(){
-    printf("Thank you for playing!");
+    printf("Thank you for playing!\n");
     clock_t start_time = clock(); 
     while (clock() < start_time + 1600);
 }
