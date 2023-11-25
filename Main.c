@@ -10,8 +10,9 @@ int main() {
     int choice;
     do {
         printf("\nMenu:\n");
-        printf("1. Tic Tac Toe game\n");
-        printf("2. Guessing Number\n");
+        printf("1. Tic Tac Toe game\n"); //this game done
+        printf("2. Guessing Number\n"); //this game done
+        printf("3. Rock Paper Sissor\n"); //ขาดเรื่องไฟล์
         printf("6. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -22,9 +23,9 @@ int main() {
             case 2:
                 system("C:/Users/akani/OneDrive/Documents/VSC/InfinityArcadeByTACTYCAM/GuessingNumbers-LuXeVi1/GuessingNumbers-1.exe");
                 break;
-            // case 3:
-            //     viewGameResults();
-            //     break;
+            case 3:
+                system("C:/Users/akani/OneDrive/Documents/VSC/InfinityArcadeByTACTYCAM/RockPaperSissor-Omgnatggboy/RockPaperScissorOri.exe");
+                 break;
             // case 4:
             //     saveGameHistoryToCSV();
             //     break;

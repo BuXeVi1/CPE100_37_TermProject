@@ -80,6 +80,7 @@ void searchGameHistoryByPlayer(const char playerName[]);
 int main() {
     srand(time(NULL));
     printf("Welcome to Tic Tac Toe!\n");
+    printf("This game create and develop by TACTYCAM Team | LuXeVi1\n");
     int choice;
     do {
         printf("\nMenu:\n");
