@@ -605,13 +605,17 @@ void readGameHistoryFromCSV() {
     fclose(csvFile);
 }
 
+/**
+ * Searches the game history by player name and prints the details of the games played by the player.
+ *
+ * @param playerName The name of the player to search for in the game history.
+ */
 void searchGameHistoryByPlayer(const char playerName[]) {
     printf("Game History for Player: %s\n", playerName);
     printf("Opponent\tWinner\tRoundsPlayed\tDateTime\n");
 
     for (int i = 0; i < gameCount; i++) {
         if (strcmp(playerName, gameHistory[i].playerName) == 0) {
-            // printf("%s\t%s\t%d\t%s\n", gameHistory[i].winner, gameHistory[i].winner, gameHistory[i].roundsPlayed, gameHistory[i].dateTime);
             const char* opponent = (strcmp(gameHistory[i].playerName, playerName) == 0) ? gameHistory[i].winner : gameHistory[i].playerName;
             printf("%s\t%s\t%d\t%s\n", opponent, gameHistory[i].winner, gameHistory[i].roundsPlayed, gameHistory[i].dateTime);
         }
