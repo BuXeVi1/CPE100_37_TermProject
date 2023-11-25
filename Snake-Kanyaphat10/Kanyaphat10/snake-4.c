@@ -4,11 +4,11 @@
 #include <termios.h>
 #include <string.h>
 
-#define MAX_STUDENTS 100
+#define MAX_USERS 100
 #define COLS 20
 #define ROWS 10
 
-struct Student {
+struct User {
     char name[100];
     int score;
 };
@@ -23,8 +23,8 @@ int fileCheck=0;
 void Run();
 void delay(int mode);
 void runSnakeGame();
-void insertionSort(struct Student students[], int count);
-int play();
+void insertionSort(struct User students[], int count);
+int fileSet();
 
 void delay(int mode) {
     if (mode == 1) {
@@ -73,7 +73,6 @@ void runSnakeGame() {
       }
       printf("│\n");
     }
-
     printf("└");
     for (int i = 0; i < COLS; i++){
         printf("─");
@@ -99,13 +98,15 @@ void runSnakeGame() {
         heartx = rand() % COLS;
         hearty = rand() % ROWS;
 
-        for (int i = tail; i != head; i = (i + 1) % 1000)//circular buffer = the head pointer is incremented and likewise, when the data is being removed (read) the tail pointer is incremented
-          if (x[i] == heartx && y[i] == hearty)
+        for (int i = tail; i != head; i = (i + 1) % 1000){//circular buffer = the head pointer is incremented and likewise, when the data is being removed (read) the tail pointer is incremented
+          if (x[i] == heartx && y[i] == hearty){
             heartx = -1;
+          }
+        }
 
         if (heartx >= 0) {
           // Draw apple
-          printf("\e[%iB\e[%iC❤", hearty + 1, heartx + 1);//\e[%iB\e[%iC is escape sequence =Move the cursor to the specified location.
+          printf("\e[%iB\e[%iC❤", hearty + 1, heartx + 1);//\e[%iB\e[%iC is escape sequence = Move the cursor to the specified location.
           printf("\e[%iF", hearty + 1);
           //This is to check that a heart (❤) has not been eaten (or the heart position is not set to -1) before drawing an apple on the screen.
         }
@@ -129,9 +130,12 @@ void runSnakeGame() {
       y[newhead] = (y[head] + ydir + ROWS) % ROWS;
       head = newhead;
 
-      for (int i = tail; i != head; i = (i + 1) % 1000)
-        if (x[i] == x[head] && y[i] == y[head])
-          gameover = 1;
+      for (int i = tail; i != head; i = (i + 1) % 1000){
+        if (x[i] == x[head] && y[i] == y[head]){
+            gameover = 1;
+        }
+      }
+        
           //The head of the snake collides with the body, ending the game.
 
       // Draw head
@@ -153,9 +157,7 @@ void runSnakeGame() {
       select(STDIN_FILENO + 1, &fds, NULL, NULL, &tv);// +1 เพื่อให้ select ทำงานถูกต้อง เพื่อเป็นค่าสูงสุด อ่านไฟล์ดิสก์ fds กำหนดเวลา timeout &tv
       if (FD_ISSET(STDIN_FILENO, &fds)) {//ตรวจสอบได้ว่ามีข้อมูล (input) ที่พร้อมให้อ่านจากคีย์บอร์ด
         int ch = getchar();
-        if (ch == 27 ) {//escape
-          quit = 1;//End of program
-        } else if (ch == 'a' && xdir != 1) {//can't move back to right
+        if (ch == 'a' && xdir != 1) {//can't move back to right
           xdir = -1;//press a move left
           ydir = 0;//does not move on the y axis
         } else if (ch == 'd' && xdir != -1) {//can't move back to left
@@ -170,7 +172,6 @@ void runSnakeGame() {
         }
       }
     }
-
         if (!quit) {
             // Show game over
             printf("\e[%iB\e[%iC Game Over! ", ROWS / 2, COLS / 2 - 5);
@@ -182,11 +183,11 @@ void runSnakeGame() {
             fflush(stdout);//แสดงผลทันที
         }
         printf("\n\nDo you want to continue(y/n)? ");
-            char ch;
+            char wr;
             do {
-            scanf(" %c", &ch);
-            printf("%c", ch);
-            switch (ch) {
+            scanf(" %c", &wr);
+            printf("%c", wr);
+            switch (wr) {
                 case 'y':
                     // Code to restart the game goes here
                     quit = 1;
@@ -200,7 +201,7 @@ void runSnakeGame() {
                 default:
                     printf("\nPlease enter a valid option (y/n)? ");
             }
-        } while (ch != 'y' && ch != 'n');
+        } while (wr != 'y' && wr != 'n' );
     }
     // Reset terminal settings  กลับไปการตั้งค่าเริ่มต้น
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
@@ -208,8 +209,7 @@ void runSnakeGame() {
 }
 
 void Run() {
-    option = 0;
-    quit = 0;
+
     do {
         printf("\nSelect your difficulty from options below");
         printf("\n1. Easy");
@@ -238,21 +238,21 @@ void Run() {
     } while (option != 5);
 }
 
-void insertionSort(struct Student students[], int count) {
+void insertionSort(struct User users[], int count) {
     int i, j;
-    struct Student key;
+    struct User key;
     for (i = 1; i < count; i++) {
-        key = students[i];
+        key = users[i];
         j = i - 1;
-        while (j >= 0 && students[j].score < key.score) {
-            students[j + 1] = students[j];
+        while (j >= 0 && users[j].score < key.score) {
+            users[j + 1] = users[j];
             j = j - 1;
         }
-        students[j + 1] = key;
+        users[j + 1] = key;
     }
 }
 
-void writeToFile(struct Student students[], int count, const char *fileName) {//ไม่อนุญาตให้ฟังก์ชันนี้เปลี่ยนแปลงชื่อไฟล์ที่ถูกส่งเข้ามา
+void writeToFile(struct User users[], int count, const char *fileName) {//ไม่อนุญาตให้ฟังก์ชันนี้เปลี่ยนแปลงชื่อไฟล์ที่ถูกส่งเข้ามา
     FILE *file = fopen(fileName, "w");
     if (file == NULL) {
         printf("Error: Cannot open file %s\n", fileName);
@@ -260,13 +260,13 @@ void writeToFile(struct Student students[], int count, const char *fileName) {//
     }
 
     for (int i = 0; i < count; i++) {
-        fprintf(file, "%s %d\n", students[i].name, students[i].score);
+        fprintf(file, "%s %d\n", users[i].name, users[i].score);
     }
 
     fclose(file);
 }
 
-int play() {
+int fileSet() {
     char fileName[100];
     int check=1;
     char outputFileName[100];
@@ -282,13 +282,13 @@ int play() {
     {
         snprintf(outputFileName, sizeof(outputFileName), "hard.csv");
     }
-    else if (fileCheck) 
+    else if (fileCheck==4) 
     {
         snprintf(outputFileName, sizeof(outputFileName), "god.csv");//ป้องกัน buffer overflow 
     }
     
 
-    FILE *file = fopen(outputFileName, "r"), *file2 = fopen(outputFileName, "a+");
+    FILE *file = fopen(outputFileName, "r");
     if (file == NULL) {
         file = fopen(outputFileName, "w");
         if (file != NULL) {
@@ -298,61 +298,45 @@ int play() {
         }
     } 
 
-    if (file2 == NULL) {
-        printf("Error: Cannot open file ");
-        return 1;
+    struct User users[MAX_USERS];
+    int num = 0;
+    while (fscanf(file, "%s %d", users[num].name, &users[num].score) != EOF) {
+        printf("Student %d: %s, Score = %d\n", num + 1, users[num].name, users[num].score);
+        num++;
     }
 
-    struct Student students[MAX_STUDENTS];
-    int numStudents = 0;
-    while (fscanf(file, "%s %d", students[numStudents].name, &students[numStudents].score) != EOF) {
-        printf("Student %d: %s, Score = %d\n", numStudents + 1, students[numStudents].name, students[numStudents].score);
-        numStudents++;
-    }
-
-
-    fprintf(file2, "%s %d", students[numStudents].name, students[numStudents].score);
-    
-    if (numStudents == 0) {
+    if (num == 0) {
         printf("No student scores found in the file.\n");
         }
 
     fclose(file);
-    fclose(file2);
-
     
-    char newStudentsname[100];
+    char newUsersname[100];
     do{
-        printf("Enter new student name (type “END” to sort student score and end the program):");
-        scanf("%s", newStudentsname);
-        if(strcmp(newStudentsname, "END") == 0){
-            break;
-        } 
-          if(numStudents < MAX_STUDENTS){
-            stpcpy(students[numStudents].name, newStudentsname);
-            numStudents++;
-            students[numStudents-1].score = heartsEaten;
-        }
-        
-        else{
-            printf("Maximum number of students reached.\n");
-        }
+        printf("Enter name : ");
+        scanf("%s", newUsersname);
+          if(num < MAX_USERS){
+            stpcpy(users[num].name, newUsersname);
+            num++;
+            users[num-1].score = heartsEaten;
+          }
+          else{
+            printf("Maximum number of users reached.\n");
+          }
     }while (check == 0);
-    insertionSort(students, numStudents);
-    printf("---------------Sort students by scores---------------\n");
-    for(int i = 0; i < numStudents; i++){
-        printf("Student %d: %s, Score = %d\n", i+1, students[i].name, students[i].score);
+    insertionSort(users, num);
+    printf("---------------Sort users by scores---------------\n");
+    printf("---------------------- Rank ----------------------\n");
+    for(int i = 0; i < num; i++){
+        printf("Rank %d: %s, Score = %d\n", i+1, users[i].name, users[i].score);
     }
-    
-
-    writeToFile(students, numStudents, outputFileName);
+    writeToFile(users, num, outputFileName);
     printf("End of program. Goodbye.\n");
     return 0;
 }
 
 int main() {
-    option = 0;
     Run();
-    play();
+    fileSet();
     return 0;
 }
