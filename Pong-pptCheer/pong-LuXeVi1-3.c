@@ -4,65 +4,128 @@
 #include <time.h>
 #include <windows.h>
 
-#define TRUE 1
-#define FALSE 0
+// Constants for boolean values
+#define TRUE 1 /**< Represents the boolean value true */
+#define FALSE 0 /**< Represents the boolean value false */
 
-// common constants for each key in the conio.h
-#define UP_KEY 72
-#define DOWN_KEY 80
-#define ESCAPE_KEY 27
-#define PAUSE_KEY 'p'
+// Constants for keyboard keys
+#define UP_KEY 72 /**< Represents the ASCII value of the up arrow key */
+#define DOWN_KEY 80 /**< Represents the ASCII value of the down arrow key */
+#define ESCAPE_KEY 27 /**< Represents the ASCII value of the escape key */
+#define PAUSE_KEY 'p' /**< Represents the character value of the pause key */
 
+// Constants for board and paddle dimensions
+#define BOARD_WIDTH 60 /**< Represents the width of the game board */
+#define BOARD_HEIGHT 20 /**< Represents the height of the game board */
+#define PADDLE_1_LENGTH 5 /**< Represents the length of paddle 1 */
+#define PADDLE_2_LENGTH 5 /**< Represents the length of paddle 2 */
 
-// player struct definition
+/**
+ * @struct Player
+ * @brief Represents a player in the Pong game.
+ * 
+ * This struct stores the x and y coordinates of the paddle, as well as the player's score.
+ */
 typedef struct {
-	unsigned short x, y, score;			// x and y coordinates of the paddle and player score
+    unsigned short x, y, score;			// x and y coordinates of the paddle and player score
 } Player;
 
-// ball struct definition
+/**
+ * @struct Ball
+ * @brief Represents a ball in the Pong game.
+ * 
+ * The Ball struct stores the x and y coordinates of the ball's location
+ * and the direction where it is headed.
+ */
 typedef struct {
-	unsigned short x, y, direction;		// x and y coordinates of the ball's location and the direction where it is headed
+    unsigned short x, y, direction;		// x and y coordinates of the ball's location and the direction where it is headed
 } Ball;
 
+/**
+ * @brief Enumeration representing the possible directions of the ball in the Pong game.
+ *        The ball can move in four directions: RIGHT_UP, LEFT_UP, RIGHT_DOWN, LEFT_DOWN.
+ */
 typedef enum {
-	RIGHT_UP, LEFT_UP, RIGHT_DOWN, LEFT_DOWN   // Declare to use in ball.direction
+    RIGHT_UP, LEFT_UP, RIGHT_DOWN, LEFT_DOWN   // Declare to use in ball.direction
 } BallDirection;
 
-void MoveCursorToXY(unsigned short x, unsigned short y) {          // moves the cursor to a different (x, y) location on the terminal
-	COORD coord = {x, y};
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-}
-
-#define BOARD_WIDTH 60
-#define BOARD_HEIGHT 20
-#define PADDLE_1_LENGTH 5
-#define PADDLE_2_LENGTH 5
-int EndScore=0;
 
 
-// Initialize positions of paddles and ball on the screen
-Player player1 = {9 + 2, (BOARD_HEIGHT-PADDLE_1_LENGTH)/2 + 6, 0};
-Player player2 = {BOARD_WIDTH + 9, (BOARD_HEIGHT - PADDLE_2_LENGTH)/2 + 6, 0};
-Ball ball = {9 + BOARD_WIDTH/2 + 1, BOARD_HEIGHT/2 + 5, RIGHT_DOWN};
+int EndScore = 0;                       // Variable to store the end score of the game
+Player player1 = {11, (BOARD_HEIGHT - PADDLE_1_LENGTH) / 2 + 6, 0};                 // Structure representing player 1
+Player player2 = {BOARD_WIDTH + 9, (BOARD_HEIGHT - PADDLE_2_LENGTH) / 2 + 6, 0};    // Structure representing player 2
+Ball ball = {9 + BOARD_WIDTH/2 + 1, BOARD_HEIGHT/2 + 5, RIGHT_DOWN};                // Structure representing the ball
+unsigned short game_on_flag_1 = TRUE;   // Flag indicating if the game is still ongoing
 
-unsigned short game_on_flag_1 = TRUE;
-
-
-// All functions used
+// Function declarations
+void MoveCursorToXY(unsigned short x, unsigned short y);
 void instructionScreen();
 void LoadingScreen();
-void UpdateFrame1();
+void UpdateFrame();
 void PrintBoard();
 void MoveBall();
 void ChangeBallDirection();
 unsigned short RecordScore();
 void PlayPong();
 
+/**
+ * @brief The main function to play Pong.
+ * 
+ * This function executes the Pong game by performing the following steps:
+ * 1. Displays the instruction screen.
+ * 2. Shows the loading screen.
+ * 3. Prints the game board.
+ * 4. Updates the game frame.
+ * 5. Records the player's score.
+ * 6. Repeats the above steps if the player wants to play again.
+ */
+void PlayPong() {
+    unsigned short play_again_flag = FALSE;
+    do {
+        instructionScreen();
+        LoadingScreen();
+        PrintBoard();
+        UpdateFrame1();
+        play_again_flag = RecordScore();
+    } while(play_again_flag);
+}
 
-// after user chose to play pong, instruction about the game shows up
+/**
+ * @brief The main function of the program.
+ * 
+ * This function calls the PlayPong() function and returns 0.
+ * 
+ * @return int Returns 0 to indicate successful execution.
+ */
+int main(){
+    PlayPong();
+    return 0;
+}
+
+/**
+ * Moves the cursor to a different (x, y) location on the terminal.
+ *
+ * @param x The x-coordinate of the new cursor position.
+ * @param y The y-coordinate of the new cursor position.
+ */
+void MoveCursorToXY(unsigned short x, unsigned short y) {
+    COORD coord = {x, y};
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
+/**
+ * @brief Displays the instruction screen for the Pong game.
+ * 
+ * This function clears the screen and displays the game instructions, including the controls for each player,
+ * the objective of the game, and additional options like pausing and exiting the game.
+ * 
+ * @param None
+ * @return None
+ */
 void instructionScreen(){
     system("cls");      // system clear screen
-    printf("Welcome to the Pong game!!!\n\n"
+    printf("Welcome to the Pong game!\n");
+    printf("This arcade create and develop by TACTYCAM Team | pptCheer\n\n"
             "\t\tGame Instruction\n\n"
             "Player 1's keys                   Player 2's keys\n"
             "    w : move up                       up arrow : move up\n"
@@ -80,20 +143,37 @@ void instructionScreen(){
     system("cls");
 }
 
-// loading screen
-void LoadingScreen() {       // prints a loading screen with a progress bar
-	MoveCursorToXY(36, 14);
-	printf("Loading...");
-	MoveCursorToXY(30, 15);
-	unsigned short i;
-	for(i=1;i<=20;i++) {
-		Sleep(100);
-		printf("%c", 178);  // 178 = '|'
-	}
-	system("cls");
+
+/**
+ * @brief Prints a loading screen with a progress bar.
+ * 
+ * This function displays a loading screen with a progress bar. It first prints the text "Loading..."
+ * at coordinates (36, 14) on the console screen. Then, it iterates from 1 to 20 and prints a vertical
+ * bar character (ASCII code 178) to represent the progress. Each bar is printed with a delay of 100 milliseconds.
+ * Finally, it clears the console screen using the "cls" command.
+ */
+void LoadingScreen() {
+    MoveCursorToXY(36, 14);
+    printf("Loading...");
+    MoveCursorToXY(30, 15);
+    unsigned short i;
+    for(i = 1; i <= 20; i++) {
+        Sleep(100);
+        printf("%c", 178);  // 178 = '|'
+    }
+    system("cls");
 }
 
-// updates the frame of the Pong game
+/**
+ * @brief Updates the frame of the Pong game.
+ * 
+ * This function updates the frame of the Pong game by handling player input, moving the paddles, and updating the ball's position.
+ * It also checks for game over conditions and allows the player to continue or exit the game.
+ * 
+ * @note This function assumes the existence of the following variables: game_on_flag_1, player1, player2, PADDLE_1_LENGTH, PADDLE_2_LENGTH, BOARD_HEIGHT, UP_KEY, DOWN_KEY, PAUSE_KEY, ESCAPE_KEY, EndScore.
+ * 
+ * @note This function relies on the following functions: Sleep(), kbhit(), getch(), MoveCursorToXY(), printf(), MoveBall(), ChangeBallDirection(), system(), exit().
+ */
 void UpdateFrame1() {
 	unsigned short i;
 	for(i=0;game_on_flag_1;i++) {
@@ -167,7 +247,14 @@ void UpdateFrame1() {
 	system("cls");
 }
 
-// prints the board of the Pong game, including player scores and paddles
+
+/**
+ * Function: PrintBoard
+ * ---------------------
+ * Prints the game board on the console screen.
+ * The board includes the scores of player 1 and player 2,
+ * the boundaries of the board, and the paddles of both players.
+ */
 void PrintBoard() {
 	MoveCursorToXY(20, 4);
 	printf("PLAYER 1: %hu", player1.score);
@@ -196,32 +283,54 @@ void PrintBoard() {
 	}
 }
 
-// moves the ball by one unit in the direction ball is facing
+
+/**
+ * Moves the ball in the specified direction.
+ * The ball's current position is updated based on its direction.
+ * The previous position of the ball is cleared by printing a space character.
+ * The new position of the ball is marked by printing the character 'O'.
+ */
 void MoveBall() {
-	MoveCursorToXY(ball.x, ball.y);
-	printf(" ");
-	switch(ball.direction) {
-		case RIGHT_UP:
-			ball.x++;
-			ball.y--;
-			break;
-		case LEFT_UP:
-			ball.x--;
-			ball.y--;
-			break;
-		case RIGHT_DOWN:
-			ball.x++;
-			ball.y++;
-			break;
-		case LEFT_DOWN:
-			ball.x--;
-			ball.y++;
-	}
-	MoveCursorToXY(ball.x, ball.y);
-	printf("O");
+    // Move the cursor to the previous position of the ball and clear it
+    MoveCursorToXY(ball.x, ball.y);
+    printf(" ");
+
+    // Update the ball's position based on its direction
+    switch(ball.direction) {
+        case RIGHT_UP:
+            ball.x++;
+            ball.y--;
+            break;
+        case LEFT_UP:
+            ball.x--;
+            ball.y--;
+            break;
+        case RIGHT_DOWN:
+            ball.x++;
+            ball.y++;
+            break;
+        case LEFT_DOWN:
+            ball.x--;
+            ball.y++;
+    }
+
+    // Move the cursor to the new position of the ball and mark it
+    MoveCursorToXY(ball.x, ball.y);
+    printf("O");
 }
 
-// changes the direction of the wall
+
+/**
+ * @brief Changes the direction of the ball based on collision with walls or paddles.
+ * 
+ * This function checks if the ball hits the top or bottom wall of the board and changes its direction accordingly.
+ * If the ball hits player 1's paddle, it checks if the ball's y-coordinate is within the paddle's range and changes its direction accordingly.
+ * If the ball hits player 2's paddle, it checks if the ball's y-coordinate is within the paddle's range and changes its direction accordingly.
+ * If the ball goes out of bounds, it updates the score and resets the ball's position and direction.
+ * 
+ * @param None
+ * @return None
+ */
 void ChangeBallDirection() {
 	if(ball.y < 7 || ball.y > 3 + BOARD_HEIGHT)			// if the ball hit the wall (the top and bottom of the board)
 		ball.direction += ball.direction<2 ? 2 : -2;
@@ -261,7 +370,11 @@ void ChangeBallDirection() {
 	}
 }
 
-// records the scores of the Pong game in .txt file
+/**
+ * Records the scores of the Pong game in a .txt file.
+ * 
+ * @return TRUE if the game should continue, FALSE otherwise.
+ */
 unsigned short RecordScore() {
     time_t mytime = time(NULL);
     char player_name1[250], player_name2[250];
@@ -325,19 +438,3 @@ unsigned short RecordScore() {
     exit(0);
 }
 
-// the main function to play Pong
-void PlayPong() {
-	unsigned short play_again_flag = FALSE;
-	do {
-		instructionScreen();
-		LoadingScreen();
-		PrintBoard();
-		UpdateFrame1();
-		play_again_flag = RecordScore();
-	} while(play_again_flag);
-}
-
-int main(){
-    PlayPong();
-    return 0;
-}
