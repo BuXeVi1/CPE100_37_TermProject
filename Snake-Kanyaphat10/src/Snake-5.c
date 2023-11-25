@@ -4,13 +4,24 @@
 #include <termios.h>
 #include <string.h>
 
+/**
+ * @file Snake-5.c
+ * @brief This file contains the definitions of constants used in the Snake game.
+ * 
+ * The constants defined in this file include the maximum number of users, the number of columns,
+ * and the number of rows in the game grid.
+ */
 #define MAX_USERS 100
 #define COLS 20
 #define ROWS 10
 
+/**
+ * @struct User
+ * @brief Represents a user with their name and score.
+ */
 struct User{
-    char name[100];
-    int score;
+    char name[100]; /**< The name of the user. */
+    int score; /**< The score of the user. */
 };
 
 int speed;
@@ -19,12 +30,22 @@ int quit;
 int heartsEaten = 0;
 int fileCheck = 0;
 
+//Function declarations
 void Run();
 void delay(int mode);
 void runSnakeGame();
 void insertionSort(struct User user[], int count);
 int fileSet();
 
+/**
+ * @brief Delays the execution of the program based on the specified mode.
+ * 
+ * @param mode The mode of delay. Valid values are 1, 2, 3, or 4.
+ *             - Mode 1: Fastest delay
+ *             - Mode 2: Fast delay
+ *             - Mode 3: Medium delay
+ *             - Mode 4: Slow delay
+ */
 //speed of snake
 void delay(int mode){
     if(mode == 1){
@@ -38,6 +59,15 @@ void delay(int mode){
     }
 }
 
+/**
+ * @brief Runs the Snake game.
+ * 
+ * This function hides the cursor, switches to canonical mode, and disables echo.
+ * It renders the game table, creates a new apple, and moves the snake.
+ * It handles user input and checks for game over conditions.
+ * It displays the game over message and prompts the user to continue or quit.
+ * Finally, it resets the terminal settings.
+ */
 void runSnakeGame(){
     //Hide cursor
     printf("\e[?25l");
@@ -190,8 +220,18 @@ void runSnakeGame(){
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 }
 
+/**
+ * Runs the game and allows the user to select the difficulty level.
+ * The user is prompted to choose a difficulty level from the options provided.
+ * The game continues to run until the user chooses to exit.
+ * 
+ * @param None
+ * @return None
+ */
 void Run(){
     do{
+        printf("Welcome to the Snake game!\n");
+         printf("This arcade create and develop by TACTYCAM Team | Kanyaphat10\n");
         printf("\nSelect your difficulty from options below");
         printf("\n1. Easy");
         printf("\n2. Normal");
@@ -217,6 +257,12 @@ void Run(){
     }while(option != 5);
 }
 
+/**
+ * Sorts an array of User structures using the insertion sort algorithm.
+ * 
+ * @param users The array of User structures to be sorted.
+ * @param count The number of elements in the array.
+ */
 void insertionSort(struct User users[], int count){
     int i, j;
     struct User key;
@@ -231,6 +277,19 @@ void insertionSort(struct User users[], int count){
     }
 }
 
+/**
+ * Writes the user data to a file.
+ * 
+ * This function takes an array of User structures, the number of users in the array,
+ * and the name of the file to write the data to. It opens the file in write mode,
+ * and if the file cannot be opened, it prints an error message and exits the program.
+ * It then iterates over the array of users and writes each user's name and score to the file.
+ * Finally, it closes the file.
+ * 
+ * @param users The array of User structures containing user data.
+ * @param count The number of users in the array.
+ * @param fileName The name of the file to write the data to.
+ */
 void writeToFile(struct User users[], int count, const char *fileName){
     FILE *file = fopen(fileName, "w");
     if(file == NULL){
@@ -245,6 +304,16 @@ void writeToFile(struct User users[], int count, const char *fileName){
     fclose(file);
 }
 
+/**
+ * This function sets the file name based on the value of fileCheck.
+ * It opens the file and reads the user scores from it.
+ * If the file does not exist, it creates a new file.
+ * It prompts the user to enter a name and score, and adds it to the user array.
+ * It sorts the user array by score in descending order.
+ * Finally, it writes the sorted user array to the file and prints a goodbye message.
+ *
+ * @return 0 indicating successful execution of the function.
+ */
 int fileSet(){
     char fileName[100];
     int check = 1;

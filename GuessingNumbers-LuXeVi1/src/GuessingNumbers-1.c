@@ -3,15 +3,25 @@
 #include <time.h>
 #include <string.h>
 
-#define MAX_NAME_LENGTH 50
-#define MAX_HISTORY 100
+/**
+ * @file GuessingNumbers-1.c
+ * @brief This file contains the definitions of the constants MAX_NAME_LENGTH and MAX_HISTORY.
+ */
 
-// Structure to store game history
+#define MAX_NAME_LENGTH 50 /**< The maximum length of a name. */
+#define MAX_HISTORY 100    /**< The maximum number of history records. */
+
+/**
+ * @brief Structure to store game history.
+ * 
+ * This structure is used to store information about a game, including the player's name,
+ * the target number, and the number of guesses made.
+ */
 typedef struct {
-    char playerName[MAX_NAME_LENGTH];
-    int targetNumber;
-    int numGuesses;
-    /*char result[20]*/;
+    char playerName[MAX_NAME_LENGTH]; /**< The name of the player. */
+    int targetNumber; /**< The target number to be guessed. */
+    int numGuesses; /**< The number of guesses made by the player. */
+    /*char result[20];*/ /**< The result of the game. */
 } GameRecord;
 
 // Function
@@ -26,6 +36,21 @@ void viewGameResultsFromCSV();
 GameRecord gameHistory[MAX_HISTORY];
 int gameCount = 0;
 
+/**
+ * @brief Main function that runs the Guessing Numbers game.
+ * 
+ * This function displays a menu to the user and allows them to choose various options:
+ * 1. Play a game
+ * 2. Search for game history by player name
+ * 3. Summarize game history
+ * 4. Save game history to CSV
+ * 5. View game results from CSV
+ * 6. Exit
+ * 
+ * The function uses a do-while loop to repeatedly display the menu and process the user's choice until they choose to exit.
+ * 
+ * @return 0 indicating successful execution of the program.
+ */
 int main() {
     srand(time(NULL));
     // loadGameHistoryFromCSV(); // Load game history from CSV file if available
@@ -73,7 +98,18 @@ int main() {
     return 0;
 }
 
-// Function to play a game
+/**
+ * Function to play a game.
+ * 
+ * This function allows the user to play a number guessing game.
+ * It prompts the user to enter their name and then generates a random number between 1 and 100.
+ * The user is then prompted to guess the number, and the function provides feedback on whether the guess is too high or too low.
+ * The function continues to prompt the user for guesses until they guess the correct number.
+ * Once the correct number is guessed, the function displays a congratulatory message along with the number of guesses made.
+ * 
+ * @param None
+ * @return None
+ */
 void playGame() {
     char playerName[MAX_NAME_LENGTH];
     int number, guess, numGuesses = 0;
@@ -106,7 +142,13 @@ void playGame() {
     addGameToHistory(playerName, number, numGuesses);
 }
 
-// Function to add a game to the history
+/**
+ * Adds a game to the history.
+ *
+ * @param playerName The name of the player.
+ * @param targetNumber The target number of the game.
+ * @param numGuesses The number of guesses made in the game.
+ */
 void addGameToHistory(const char playerName[], int targetNumber, int numGuesses/*, const char result[]*/) {
     if (gameCount < MAX_HISTORY) {
         strcpy(gameHistory[gameCount].playerName, playerName);
@@ -118,6 +160,11 @@ void addGameToHistory(const char playerName[], int targetNumber, int numGuesses/
 }
 
 // Function to search for game history by player name
+/**
+ * Searches the game history for a specific player and prints their game records.
+ * 
+ * @param playerName The name of the player to search for.
+ */
 void searchGameHistory(const char playerName[]) {
     printf("Game History for Player: %s\n", playerName);
     printf("===================================\n");
@@ -129,28 +176,22 @@ void searchGameHistory(const char playerName[]) {
     }
 }
 
-// Function to summarize game history
+/**
+ * Function to summarize the game history.
+ * This function prints the summary of the game history, including the total number of games played.
+ */
 void summarizeGameHistory() {
     printf("Game History Summary\n");
     printf("====================\n");
     printf("Total Games Played: %d\n", gameCount);
-
-    // int totalWins = 0, totalLosses = 0, totalGuesses = 0;
-    // for (int i = 0; i < gameCount; i++) {
-    //     if (strcmp(gameHistory[i].result, "Win") == 0) {
-    //         totalWins++;
-    //     } else {
-    //         totalLosses++;
-    //     }
-    //     totalGuesses += gameHistory[i].numGuesses;
-    // }
-
-    // printf("Total Wins: %d\n", totalWins);
-    // printf("Total Losses: %d\n", totalLosses);
-    // printf("Average Guesses per Game: %.2f\n", (float)totalGuesses / gameCount);
 }
 
-// Function to save game history to a CSV file
+/**
+ * Function to save the game history to a CSV file.
+ * The function opens a CSV file named "game_history.csv" in write mode.
+ * It then writes the player name, target number, and number of guesses for each game in the game history array to the CSV file.
+ * Finally, it closes the CSV file and prints a message indicating that the game history has been saved.
+ */
 void saveGameHistoryToCSV() {
     FILE *csvFile = fopen("game_history.csv", "w");
     if (csvFile == NULL) {
@@ -167,24 +208,17 @@ void saveGameHistoryToCSV() {
     printf("Game history saved to game_history.csv\n");
 }
 
-// Function to load game history from a CSV file
-// void loadGameHistoryFromCSV() {
-//     FILE *csvFile = fopen("game_history.csv", "r");
-//     if (csvFile == NULL) {
-//         return; // File doesn't exist or can't be opened so return
-//     }
-//     char line[256];
-//     int count = 0;
-//     while (fgets(line, sizeof(line), csvFile) && count < MAX_HISTORY) {
-//         sscanf(line, "%[^,],%d,%d", gameHistory[count].playerName, &gameHistory[count].targetNumber, &gameHistory[count].numGuesses /*,%s , gameHistory[count].result*/);
-//         count++;
-//     }
-//     fclose(csvFile);
-//     gameCount = count;
-// }
-
-// Function to view game results from a CSV file
+/**
+ * Function to view game results from a CSV file.
+ * The function reads the contents of a CSV file named "game_history.csv"
+ * and prints the game results in a tabular format.
+ * The format of each line in the CSV file should be:
+ * Player Name, Target Number, Guesses
+ * 
+ * If the CSV file is not found, the function prints an error message.
+ */
 void viewGameResultsFromCSV() {
+    // Open the CSV file for reading
     FILE *csvFile = fopen("game_history.csv", "r");
     if (csvFile == NULL) {
         printf("Game history CSV file not found.\n");
@@ -194,8 +228,12 @@ void viewGameResultsFromCSV() {
     char line[256];
     printf("Game Results from CSV File:\n");
     printf("Player Name\tTarget Number\tGuesses\n"); /*\tResult*/
+
+    // Read each line from the CSV file and print it
     while (fgets(line, sizeof(line), csvFile)) {
         printf("%s", line);
     }
+
+    // Close the CSV file
     fclose(csvFile);
 }

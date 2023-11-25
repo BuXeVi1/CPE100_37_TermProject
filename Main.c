@@ -10,9 +10,11 @@ int main() {
     int choice;
     do {
         printf("\nMenu:\n");
-        printf("1. Tic Tac Toe game\n"); //this game done
-        printf("2. Guessing Number\n"); //this game done
-        printf("3. Rock Paper Sissor\n"); //ขาดเรื่องไฟล์
+        printf("1. Tic Tac Toe\n"); //this game done + comment
+        printf("2. Guessing Number\n"); //this game done + comment
+        printf("3. Rock Paper Sissor\n"); //ขาดเรื่องไฟล์ buut already comment
+        printf("4. Pong\n"); //this game done+comment
+        printf("5. Snake\n"); //this game done+comment
         printf("6. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -26,12 +28,12 @@ int main() {
             case 3:
                 system("C:/Users/akani/OneDrive/Documents/VSC/InfinityArcadeByTACTYCAM/RockPaperSissor-Omgnatggboy/RockPaperScissorOri.exe");
                  break;
-            // case 4:
-            //     saveGameHistoryToCSV();
-            //     break;
-            // case 5:
-            //     readGameHistoryFromCSV();
-            //     break;
+            case 4:
+                system("C:/Users/akani/OneDrive/Documents/VSC/InfinityArcadeByTACTYCAM/Pong-pptCheer/pong-LuXeVi1.exe");
+                break;
+            case 5:
+                system("C:/Users/akani/OneDrive/Documents/VSC/InfinityArcadeByTACTYCAM/Snake-Kanyaphat10/Snake-5.c");
+                break;
             case 6:
                 printf("End of program. Goodbye!\n");
                 break;

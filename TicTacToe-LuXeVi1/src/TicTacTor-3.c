@@ -27,14 +27,29 @@
 #define MAX_NAME_LENGTH 50
 #define MAX_HISTORY 100
 
-// Structure to store game history
+/**
+ * @brief Structure to store game history
+ * 
+ * This structure is used to store the game history, including the player name,
+ * winner name, number of rounds played, and the date and time of the game.
+ */
 typedef struct {
-    char playerName[MAX_NAME_LENGTH];
-    char winner[MAX_NAME_LENGTH];
-    int roundsPlayed;
-    char dateTime[20];
+    char playerName[MAX_NAME_LENGTH]; ///< The name of the player
+    char winner[MAX_NAME_LENGTH]; ///< The name of the winner
+    int roundsPlayed; ///< The number of rounds played
+    char dateTime[20]; ///< The date and time of the game
 } GameRecord;
 
+/**
+ * @file TicTacTor-3.c
+ * @brief This file contains the declaration of variables used in the Tic Tac Toe game.
+ * 
+ * The variables include the game board, game history, game count, and player name.
+ * The game board is a 2D array representing the Tic Tac Toe board.
+ * The game history is an array of GameRecord structures to store the history of each game played.
+ * The game count keeps track of the number of games played.
+ * The player name is a character array to store the name of the player.
+ */
 char board[BOARD_SIZE][BOARD_SIZE];
 GameRecord gameHistory[MAX_HISTORY];
 int gameCount = 0;
