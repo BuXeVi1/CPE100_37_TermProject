@@ -43,7 +43,11 @@ int main(){
             playGame();
             break;
         case 2:
-            
+            {
+                printf("Enter player name to search: ");
+                scanf("%s", playerName);
+                searchGameHistory(playerName);
+            }
             break;
         case 3:
             Endscreen();
@@ -95,10 +99,10 @@ void addGameToHistory(const char playerName[], int win, int loss, int draw) {
 void searchGameHistory(const char playerName[]) {
     printf("Game History for Player: %s\n", playerName);
     printf("===================================\n");
-    printf("Name\twin\tloss\tdraw\n"); // \tResult\n");
+    printf("Name\t\twin\t\tloss\t\tdraw\n"); // \tResult\n");
     for (int i = 0; i < gameCount; i++) {
         if (strcmp(playerName, gameHistory[i].playerName) == 0) {
-            printf("%s\t%d\t\t%d\t\tdraw\n", gameHistory[i].playerName, gameHistory[i].win, gameHistory[i].loss, gameHistory[i].draw);
+            printf("%s\t\t%d\t\t%d\t\t%d\n", gameHistory[i].playerName, gameHistory[i].win, gameHistory[i].loss, gameHistory[i].draw);
         }
     }
 
@@ -136,11 +140,11 @@ void playGame(){
 
         /*Game*/
         printTitle("ROCK, PAPER, SCISSORS BY OMGNAT");      
-
+        char playerName[50];
+        printf("Enter Your Name: ");
+        scanf("%s", playerName);
         do{
-            char playerName[50];
-            printf("Enter Your Name: ");
-            scanf("%s", playerName);
+            
             printf("\nRock, paper or scissors?: ");
 
             scanf("%s", userHandString);
@@ -167,27 +171,31 @@ void playGame(){
         result = userHand - computerHand;
         if(result < 0)
             result += 3;
-
+            if(result==0){
+                draw+=1;
+                addGameToHistory(playerName, win, loss, draw);
+            }
+            else if(result==1){
+                win+=1;
+                addGameToHistory(playerName, win, loss, draw);
+            }
+            else{
+                loss+=1;
+                addGameToHistory(playerName, win, loss, draw);
+            }
         switch(result){
             case 0:
                 printf("It's a draw, gg\n\n");
-                draw+=1;
-                
                 break;
             case 1:
                 printf("YOU WON YAY!\n\n");
-                win+=1;
-                
                 break;
             case 2:
                 printf("Oh, you lost. GG EZ NOOB\n\n");
-                loss+=1;
                 break;
             default:
                 break;
-        }
-        addGameToHistory(playerName, win, loss, draw);
-               
+        }      
         do{
             printf("Do you want to Keep playing? [Y/N]: ");
             fflush(stdin);
