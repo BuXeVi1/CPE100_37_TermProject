@@ -17,10 +17,10 @@ This is a simple implementation of the Snake game in C. The game allows users to
 7. After the game ends, choose to continue or exit.
 
 ## Difficulty Levels
-- **Easy:** Fastest speed.
-- **Normal:** Fast speed.
-- **Hard:** Medium speed.
-- **God:** Slowest speed.
+- **Easy:** Slowest speed.
+- **Normal:** Medium speed.
+- **Hard:** Fast speed.
+- **God:** Fastest speed.
 
 ## Contributors
 This Snake game was created and developed by the **TACTYCAM Team** and **Kanyaphat10**.

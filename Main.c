@@ -12,7 +12,7 @@ int main() {
         printf("\nMenu:\n");
         printf("1. Tic Tac Toe\n"); //this game done + comment
         printf("2. Guessing Number\n"); //this game done + comment
-        printf("3. Rock Paper Sissor\n"); //ขาดเรื่องไฟล์ buut already comment
+        printf("3. Rock Paper Sissor\n"); //ขาดเรื่องไฟล์ but already comment
         printf("4. Pong\n"); //this game done+comment
         printf("5. Snake\n"); //this game done+comment
         printf("6. Exit\n");

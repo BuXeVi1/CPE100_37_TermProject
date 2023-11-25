@@ -231,7 +231,7 @@ void runSnakeGame(){
 void Run(){
     do{
         printf("Welcome to the Snake game!\n");
-         printf("This arcade create and develop by TACTYCAM Team | Kanyaphat10\n");
+        printf("This arcade create and develop by TACTYCAM Team | Kanyaphat10\n");
         printf("\nSelect your difficulty from options below");
         printf("\n1. Easy");
         printf("\n2. Normal");
