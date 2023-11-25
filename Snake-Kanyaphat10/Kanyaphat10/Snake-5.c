@@ -25,6 +25,7 @@ void runSnakeGame();
 void insertionSort(struct User user[], int count);
 int fileSet();
 
+//speed of snake
 void delay(int mode){
     if(mode == 1){
         speed = (10 * 1000000 / 60);
@@ -41,10 +42,11 @@ void runSnakeGame(){
     //Hide cursor
     printf("\e[?25l");
 
+    // Switch to canonical mode, disable echo
     struct termios oldt, newt;
     tcgetattr(STDIN_FILENO, &oldt);
     newt = oldt;
-    newt.c_cflag &= ~(ICANON | ECHO);
+    newt.c_lflag &= ~(ICANON | ECHO);
     tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 
     int x[1000], y[1000];
@@ -98,12 +100,13 @@ void runSnakeGame(){
                 }
             }
 
+            // Clear snake tail
             printf("\e[%iB\e[%iC·", y[tail] + 1, x[tail] + 1);
             printf("\e[%iF", y[tail] + 1);
 
             if(x[head] == heartx && y[head] == hearty){
                 heartx = -1;
-                heartsEaten++;
+                heartsEaten++;// Increase the number of apples eaten by one.
             }else{
                 tail = (tail + 1) % 1000;
             }
@@ -126,6 +129,7 @@ void runSnakeGame(){
 
             usleep(speed);
 
+            //Read keyboard
             struct timeval tv;
             fd_set fds;
             tv.tv_sec = 0;
@@ -153,7 +157,7 @@ void runSnakeGame(){
         }
 
         if(!quit){
-            // Show game over
+            //Show game over
             printf("\e[%iB\e[%iC Game Over! ", ROWS / 2, COLS / 2 - 5);
             printf("\n\n\n\n\n\n\nHearts Eaten: %d\n", heartsEaten);
             printf("\e[%iF", ROWS / 5);
@@ -203,6 +207,7 @@ void Run(){
             case 3:
             case 4:
                 runSnakeGame();
+                break;
             case 5:
                 printf("Thank you for your attention.\n");
                 break;
@@ -282,7 +287,7 @@ int fileSet(){
         printf("Enter name : ");
         scanf("%s", newUsersname);
         if(num < MAX_USERS){
-            stpcpy(users[num].name, heartsEaten);
+            stpcpy(users[num].name, newUsersname);
             num++;
             users[num-1].score = heartsEaten;
         }else{

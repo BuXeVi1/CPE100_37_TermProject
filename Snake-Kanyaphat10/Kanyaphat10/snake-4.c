@@ -8,7 +8,7 @@
 #define COLS 20
 #define ROWS 10
 
-struct User {
+struct User{
     char name[100];
     int score;
 };
