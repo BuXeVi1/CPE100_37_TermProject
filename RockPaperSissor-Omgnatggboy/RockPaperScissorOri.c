@@ -119,7 +119,8 @@ void playGame(){
 
     /*Start randomizer*/
     srand(time(NULL));
-
+    printf("Enter Your Name: ");
+    scanf("%s", playerName);
     while(keepPlaying == 'y' || keepPlaying == 'Y'){
         /*Generate computer's hand*/
         computerHand = rand() % 3;
@@ -140,9 +141,7 @@ void playGame(){
 
         /*Game*/
         printTitle("ROCK, PAPER, SCISSORS BY OMGNAT");      
-        char playerName[50];
-        printf("Enter Your Name: ");
-        scanf("%s", playerName);
+        
         do{
             
             printf("\nRock, paper or scissors?: ");
