@@ -1,5 +1,4 @@
-//still broken xD
-//play in .exe file
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -12,7 +11,9 @@ void addGameToHistory(const char playerName[], int win, int loss, int draw);
 void searchGameHistory(const char playerName[]);
 void Endscreen();
 void playGame();
-void _Exit( int exit_argument );
+void viewGameResultsFromCSV();
+void saveGameHistoryToCSV();
+
 
 /**
  * @struct GameRecord
@@ -53,7 +54,9 @@ int main(){
     printf("Choose an option:\n");
     printf("1. Play a game\n");
     printf("2. Search game history\n");
-    printf("3. Exit game\n");
+    printf("3. save Game History To CSV\n");
+    printf("4. view Game Results From CSV\n");
+    printf("5. Exit game\n");
     printf("Enter your choice (1/2/3): ");
     scanf("%d", &choice);
 
@@ -69,6 +72,12 @@ int main(){
             }
             break;
         case 3:
+            saveGameHistoryToCSV();
+            break;
+        case 4:
+            viewGameResultsFromCSV();
+            break;
+        case 5:
             Endscreen();
             break;
         default:
@@ -272,4 +281,36 @@ void Endscreen(){
     clock_t start_time = clock(); 
     while (clock() < start_time + 800);
     _Exit(0);
+}
+
+void saveGameHistoryToCSV() {
+    FILE *csvFile = fopen("RPS_history.csv", "w");
+    if (csvFile == NULL) {
+        printf("Error opening the CSV file for writing.\n");
+        return;
+    }
+
+    fprintf(csvFile, "Player Name,win,loss,draw\n");
+    for (int i = 0; i < gameCount; i++) {
+        fprintf(csvFile, "%s,%d,%d\n", gameHistory[i].playerName, gameHistory[i].win, gameHistory[i].loss, gameHistory[i].draw /*,%s , gameHistory[i].result*/);
+    }
+
+    fclose(csvFile);
+    printf("Game history saved to RPS_history.csv\n");
+}
+
+void viewGameResultsFromCSV() {
+    FILE *csvFile = fopen("RPS_history.csv", "r");
+    if (csvFile == NULL) {
+        printf("Game history CSV file not found.\n");
+        return;
+    }
+
+    char line[256];
+    printf("Game Results from CSV File:\n");
+    printf("Player Name\twin\tloss\tdraw\n"); 
+    while (fgets(line, sizeof(line), csvFile)) {
+        printf("%s", line);
+    }
+    fclose(csvFile);
 }
