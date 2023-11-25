@@ -23,7 +23,7 @@ int fileCheck=0;
 void Run();
 void delay(int mode);
 void runSnakeGame();
-void insertionSort(struct User students[], int count);
+void insertionSort(struct User user[], int count);
 int fileSet();
 
 void delay(int mode) {
