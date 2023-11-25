@@ -57,7 +57,7 @@ int main(){
     printf("3. save Game History To CSV\n");
     printf("4. view Game Results From CSV\n");
     printf("5. Exit game\n");
-    printf("Enter your choice (1/2/3): ");
+    printf("Enter your choice (1/2/3/4/5): ");
     scanf("%d", &choice);
 
     switch(choice) {
