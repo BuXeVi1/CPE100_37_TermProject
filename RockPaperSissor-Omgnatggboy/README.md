@@ -14,6 +14,7 @@ This arcade was created and developed by the TACTYCAM Team and Omgnatggboy.
        - **Save Game History To CSV:** Save your game history to a CSV file.
        - **View Game Results From CSV:** View game results from a saved CSV file.
        - **Clear game history:** Clear history in CSV file.
+       - **Back to main menu:** Return to main menu.
    - **Exit game:** Quit the game.
 3. Follow the on-screen instructions to play the game.
 4. After each game, decide whether to keep playing.
