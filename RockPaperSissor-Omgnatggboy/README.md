@@ -23,7 +23,7 @@ This arcade was created and developed by the TACTYCAM Team and Omgnatggboy.
 This game was created and developed by the **TACTYCAM Team** and **Omgnatggboy**.
 
 ## Game History
-Your game history, including wins, losses, and draws, is recorded and can be viewed or saved to a CSV file.
+Your game history, including wins, losses, and draws, is recorded and can be saved to a CSV file or viewed a CSV file after saved.
 
 ## Acknowledgments
 Special thanks to all contributors and players who enjoy this Rock Paper Scissors game.
