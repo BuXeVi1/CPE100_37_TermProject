@@ -29,5 +29,4 @@ Your game history, including wins, losses, and draws, is recorded and can be sav
 Special thanks to all contributors and players who enjoy this Rock Paper Scissors game.
 
 Feel free to have fun playing Rock, Paper, Scissors and check your performance over time!
-- **Save Game History To CSV:** Save your game history to a CSV file.
-   - **View Game Results From CSV:** View game results from a saved CSV file.
+
