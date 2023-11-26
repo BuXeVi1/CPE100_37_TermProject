@@ -55,7 +55,7 @@ int EndScore = 0;                       // Variable to store the end score of th
 Player player1 = {11, (BOARD_HEIGHT - PADDLE_1_LENGTH) / 2 + 6, 0};                 // Structure representing player 1
 Player player2 = {BOARD_WIDTH + 9, (BOARD_HEIGHT - PADDLE_2_LENGTH) / 2 + 6, 0};    // Structure representing player 2
 Ball ball = {9 + BOARD_WIDTH/2 + 1, BOARD_HEIGHT/2 + 5, RIGHT_DOWN};                // Structure representing the ball
-unsigned short game_on_flag_1 = TRUE;   // Flag indicating if the game is still ongoing
+unsigned short game_on_flag = TRUE;   // Flag indicating if the game is still ongoing
 
 // Function declarations
 void MoveCursorToXY(unsigned short x, unsigned short y);
@@ -85,7 +85,7 @@ void PlayPong() {
         instructionScreen();
         LoadingScreen();
         PrintBoard();
-        UpdateFrame1();
+        UpdateFrame();
         play_again_flag = RecordScore();
     } while(play_again_flag);
 }
@@ -170,13 +170,13 @@ void LoadingScreen() {
  * This function updates the frame of the Pong game by handling player input, moving the paddles, and updating the ball's position.
  * It also checks for game over conditions and allows the player to continue or exit the game.
  * 
- * @note This function assumes the existence of the following variables: game_on_flag_1, player1, player2, PADDLE_1_LENGTH, PADDLE_2_LENGTH, BOARD_HEIGHT, UP_KEY, DOWN_KEY, PAUSE_KEY, ESCAPE_KEY, EndScore.
+ * @note This function assumes the existence of the following variables: game_on_flag, player1, player2, PADDLE_1_LENGTH, PADDLE_2_LENGTH, BOARD_HEIGHT, UP_KEY, DOWN_KEY, PAUSE_KEY, ESCAPE_KEY, EndScore.
  * 
  * @note This function relies on the following functions: Sleep(), kbhit(), getch(), MoveCursorToXY(), printf(), MoveBall(), ChangeBallDirection(), system(), exit().
  */
-void UpdateFrame1() {
+void UpdateFrame() {
 	unsigned short i;
-	for(i=0;game_on_flag_1;i++) {
+	for(i=0;game_on_flag;i++) {
 		Sleep(16);					// update every 16 milliseconds, this provides a frame rate of 1/0.016 = 62.5 FPS
 		if(kbhit()) {				// kbhit() stands for "keyboard hit" : check if a key has been pressed, if so, return a value indicating that a key has been hit without waiting for the user to press Enter
 			char key = getch();
@@ -348,7 +348,7 @@ void ChangeBallDirection() {
 			MoveCursorToXY(60, 4);
 			printf("%hu", ++player2.score);		//update the score 
 			if(player2.score == EndScore)
-				game_on_flag_1 = FALSE;
+				game_on_flag = FALSE;
 		}
 	}
 	else if(ball.x >= player2.x - 1) {							// if the ball hits player 2's paddle
@@ -365,7 +365,7 @@ void ChangeBallDirection() {
 			MoveCursorToXY(30, 4);
 			printf("%hu", ++player1.score);		//update the score 
 			if(player1.score == EndScore)
-				game_on_flag_1 = FALSE;
+				game_on_flag = FALSE;
 		}
 	}
 }
@@ -427,7 +427,7 @@ unsigned short RecordScore() {
             break;
         case 'R':
         case 'r':
-            game_on_flag_1 = TRUE;
+            game_on_flag = TRUE;
             player1 = (Player){11, (BOARD_HEIGHT - PADDLE_1_LENGTH) / 2 + 6, 0};
             player2 = (Player){BOARD_WIDTH + 9, (BOARD_HEIGHT - PADDLE_2_LENGTH) / 2 + 6, 0};
             ball = (Ball){BOARD_WIDTH / 2 + 10, BOARD_HEIGHT / 2 + 5, rand() % 4};

@@ -45,13 +45,13 @@ Player player1 = {9 + 2, (BOARD_HEIGHT-PADDLE_1_LENGTH)/2 + 6, 0};
 Player player2 = {BOARD_WIDTH + 9, (BOARD_HEIGHT - PADDLE_2_LENGTH)/2 + 6, 0};
 Ball ball = {9 + BOARD_WIDTH/2 + 1, BOARD_HEIGHT/2 + 5, RIGHT_DOWN};
 
-unsigned short game_on_flag_1 = TRUE;
+unsigned short game_on_flag = TRUE;
 
 
 // All functions used
 void instructionScreen();
 void LoadingScreen();
-void UpdateFrame1();
+void UpdateFrame();
 void PrintBoard();
 void MoveBall();
 void ChangeBallDirection();
@@ -94,9 +94,9 @@ void LoadingScreen() {       // prints a loading screen with a progress bar
 }
 
 // updates the frame of the Pong game
-void UpdateFrame1() {
+void UpdateFrame() {
 	unsigned short i;
-	for(i=0;game_on_flag_1;i++) {
+	for(i=0;game_on_flag;i++) {
 		Sleep(16);					// update every 16 milliseconds, this provides a frame rate of 1/0.016 = 62.5 FPS
 		if(kbhit()) {				// kbhit() stands for "keyboard hit" : check if a key has been pressed, if so, return a value indicating that a key has been hit without waiting for the user to press Enter
 			char key = getch();
@@ -239,7 +239,7 @@ void ChangeBallDirection() {
 			MoveCursorToXY(60, 4);
 			printf("%hu", ++player2.score);		//update the score 
 			if(player2.score == EndScore)
-				game_on_flag_1 = FALSE;
+				game_on_flag = FALSE;
 		}
 	}
 	else if(ball.x >= player2.x - 1) {							// if the ball hits player 2's paddle
@@ -256,7 +256,7 @@ void ChangeBallDirection() {
 			MoveCursorToXY(30, 4);
 			printf("%hu", ++player1.score);		//update the score 
 			if(player1.score == EndScore)
-				game_on_flag_1 = FALSE;
+				game_on_flag = FALSE;
 		}
 	}
 }
@@ -293,7 +293,7 @@ unsigned short RecordScore() {
 			break;
 		case 'R':
 		case 'r':
-			game_on_flag_1 = TRUE;
+			game_on_flag = TRUE;
 			Player player1 = {11, (BOARD_HEIGHT-PADDLE_1_LENGTH)/2 + 6, 0};
 			Player player2 = {BOARD_WIDTH + 9, (BOARD_HEIGHT - PADDLE_2_LENGTH)/2 + 6, 0};
 			ball = (Ball){BOARD_WIDTH/2 + 10, BOARD_HEIGHT/2 + 5, rand()%4};
@@ -313,7 +313,7 @@ void PlayPong() {
 		instructionScreen();
 		LoadingScreen();
 		PrintBoard();
-		UpdateFrame1();
+		UpdateFrame();
 		play_again_flag = RecordScore();
 	} while(play_again_flag);
 }
