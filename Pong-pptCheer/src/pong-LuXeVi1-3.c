@@ -215,7 +215,7 @@ void UpdateFrame1() {
 						printf("%c", 219);
 					}
 					break;
-				case PAUSE_KEY:		// pause the game
+				case PAUSE_KEY:		// pause or resume to the game
 					do {
 						key = getch();
 						if(key == ESCAPE_KEY) {
