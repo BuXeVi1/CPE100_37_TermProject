@@ -319,6 +319,16 @@ void viewGameResultsFromCSV() {
     while (clock() < start_time + 6400);
 }
 
+/**
+ * Function: gameHistoryManager
+ * ----------------------------
+ * This function allows the user to manage the game history by providing options to save, view, or clear the game history.
+ * The user is prompted to choose an option (1/2/3/4) and the corresponding action is performed based on the chosen option.
+ * 
+ * Parameters: None
+ * 
+ * Returns: None
+ */
 void gameHistoryManager() {
     int options;
     char keepPlaying;
@@ -350,7 +360,6 @@ void gameHistoryManager() {
         default:
             printf("Invalid choice. Please enter 1 or 2. or 3 or 4.\n");
             break;
-        
     }
 
 }
