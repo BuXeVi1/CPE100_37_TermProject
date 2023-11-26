@@ -12,7 +12,7 @@ void Endscreen();
 void playGame();
 void viewGameResultsFromCSV();
 void saveGameHistoryToCSV();
-
+void gameHistoryManager();
 
 /**
  * @struct GameRecord
@@ -53,10 +53,9 @@ int main(){
     printf("Choose an option:\n");
     printf("1. Play a game\n");
     printf("2. Search game history\n");
-    printf("3. save Game History To CSV\n");
-    printf("4. view Game Results From CSV\n");
-    printf("5. Exit game\n");
-    printf("Enter your choice (1/2/3/4/5): ");
+    printf("3. Manage game saves\n");
+    printf("4. Exit game\n");
+    printf("Enter your choice (1/2/3/4): ");
     scanf("%d", &choice);
 
     switch(choice) {
@@ -71,12 +70,10 @@ int main(){
             }
             break;
         case 3:
-            saveGameHistoryToCSV();
+            system("@cls||clear");
+            gameHistoryManager();
             break;
         case 4:
-            viewGameResultsFromCSV();
-            break;
-        case 5:
             Endscreen();
             break;
         default:
@@ -283,33 +280,73 @@ void Endscreen(){
 }
 
 void saveGameHistoryToCSV() {
-    FILE *csvFile = fopen("RPS_history.csv", "w");
-    if (csvFile == NULL) {
+    FILE *f = fopen("data.csv", "a");
+    if (f == NULL) {
         printf("Error opening the CSV file for writing.\n");
         return;
     }
 
-    fprintf(csvFile, "Player Name,win,loss,draw\n");
+    // fprintf(f, "Player Name,win,loss,draw\n");
     for (int i = 0; i < gameCount; i++) {
-        fprintf(csvFile, "%s,%d,%d\n", gameHistory[i].playerName, gameHistory[i].win, gameHistory[i].loss, gameHistory[i].draw /*,%s , gameHistory[i].result*/);
+        fprintf(f, "%s\t\t\t%d\t%d\t%d\n", gameHistory[i].playerName, gameHistory[i].win, gameHistory[i].loss, gameHistory[i].draw);
     }
 
-    fclose(csvFile);
-    printf("Game history saved to RPS_history.csv\n");
+    fclose(f);
+    system("@cls||clear");
+    printf("Game history saved to data.csv\n");
+}
+
+void clearGameResultsFromCSV() {
+    fclose(fopen("data.csv", "w"));
 }
 
 void viewGameResultsFromCSV() {
-    FILE *csvFile = fopen("RPS_history.csv", "r");
-    if (csvFile == NULL) {
+    FILE *f = fopen("data.csv", "r");
+    if (f == NULL) {
         printf("Game history CSV file not found.\n");
         return;
     }
 
-    char line[256];
+    char w[256] ="";
     printf("Game Results from CSV File:\n");
-    printf("Player Name\twin\tloss\tdraw\n"); 
-    while (fgets(line, sizeof(line), csvFile)) {
-        printf("%s", line);
+    printf("Player Name\t\twin\tloss\tdraw\n");
+    while (fgets(w, sizeof(w), f) != NULL) {
+        printf("%s", w);
     }
-    fclose(csvFile);
+    fclose(f);
+}
+
+void gameHistoryManager() {
+    int options;
+    char keepPlaying;
+    printf("Choose options below: \n");
+    printf("1. Save game history\n");
+    printf("2. View game results\n");
+    printf("3. Clear game history\n");
+    printf("4. Back to main menu\n");
+    printf("Enter your choice (1/2/3/4): ");
+    scanf("%d",&options);
+    switch(options){
+        case 1:
+            saveGameHistoryToCSV();
+            break;
+        case 2:
+            system("@cls||clear");
+            viewGameResultsFromCSV();
+            break;
+        case 3:
+            system("@cls||clear");
+            clearGameResultsFromCSV();
+            printf("Game history has been cleared\n");
+            clock_t start_time = clock(); 
+            while (clock() < start_time + 1600);
+            break;
+        case 4:
+            keepPlaying =='n';
+            break;
+        default:
+            printf("Invalid choice. Please enter 1 or 2. or 3 or 4.\n");
+            break;
+    }
+
 }
