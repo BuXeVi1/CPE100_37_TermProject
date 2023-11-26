@@ -34,11 +34,12 @@ int gameCount = 0;
 /**
  * @brief Main function of the Rock Paper Scissor game.
  * 
- * This function displays a menu to the user and allows them to choose between playing a game, searching game history, or exiting the game.
+ * This function displays a menu to the user and allows them to choose between playing a game, searching game history, managing game saves or exiting the game.
  * It uses a while loop to keep the game running until the user chooses to exit.
  * The user's choice is taken as input using scanf and a switch statement is used to perform the corresponding action based on the choice.
  * The playGame() function is called when the user chooses to play a game.
  * The searchGameHistory() function is called when the user chooses to search game history.
+ * The gameHistoryManager() function is called when user choose to access to the file.
  * The Endscreen() function is called when the user chooses to exit the game.
  * If the user enters an invalid choice, an error message is displayed.
  */
@@ -279,6 +280,12 @@ void Endscreen(){
     _Exit(0);
 }
 
+
+/**
+ * Function: saveGameHistoryToCSV
+ * --------------------
+ * Save game history to the file which contain of player Name number of win, loss, draw each round.
+ */
 void saveGameHistoryToCSV() {
     FILE *f = fopen("data.csv", "a");
     if (f == NULL) {
@@ -286,7 +293,6 @@ void saveGameHistoryToCSV() {
         return;
     }
 
-    // fprintf(f, "Player Name,win,loss,draw\n");
     for (int i = 0; i < gameCount; i++) {
         fprintf(f, "%s\t\t\t%d\t%d\t%d\n", gameHistory[i].playerName, gameHistory[i].win, gameHistory[i].loss, gameHistory[i].draw);
     }
@@ -296,10 +302,23 @@ void saveGameHistoryToCSV() {
     printf("Game history saved to data.csv\n");
 }
 
+
+/**
+ * Function: clearGameResultsFromCSV
+ * --------------------
+ * Clear or delete all information in the file.
+ */
 void clearGameResultsFromCSV() {
     fclose(fopen("data.csv", "w"));
 }
 
+
+/**
+ * Function: viewGameResultsFromCSV
+ * --------------------
+ * View game history from the file by showing information's list of player Name and
+ * number of win, loss, draw each round.
+ */
 void viewGameResultsFromCSV() {
     FILE *f = fopen("data.csv", "r");
     if (f == NULL) {
@@ -316,37 +335,49 @@ void viewGameResultsFromCSV() {
     fclose(f);
 }
 
+
+/**
+ * Function: gameHistoryManager
+ * --------------------
+ * Displays options for the game history manager an allows user to choose between save game history, view game result, clear game history 
+ * and back to main menu.
+ * 
+ * The saveGameHistoryToCSV() function is called when user chooses to save history to the file.
+ * The viewGameResultsFromCSV() function is called when user chooses to view game's history from the file.
+ * The clearGameResultsFromCSV() function is called when user chooses to cleat history from the file.
+ * and there's an optin to back to the main menu.
+ */
 void gameHistoryManager() {
-    int options;
-    char keepPlaying;
+    int options; 
+    char keepPlaying; 
+    
     printf("Choose options below: \n");
     printf("1. Save game history\n");
     printf("2. View game results\n");
     printf("3. Clear game history\n");
     printf("4. Back to main menu\n");
     printf("Enter your choice (1/2/3/4): ");
-    scanf("%d",&options);
+    scanf("%d",&options); 
     switch(options){
         case 1:
-            saveGameHistoryToCSV();
+            saveGameHistoryToCSV(); 
             break;
         case 2:
-            system("@cls||clear");
+            system("@cls||clear"); 
             viewGameResultsFromCSV();
             break;
         case 3:
-            system("@cls||clear");
+            system("@cls||clear"); 
             clearGameResultsFromCSV();
             printf("Game history has been cleared\n");
             clock_t start_time = clock(); 
-            while (clock() < start_time + 1600);
+            while (clock() < start_time + 1600);  
             break;
         case 4:
-            keepPlaying =='n';
+            keepPlaying =='n'; 
             break;
         default:
             printf("Invalid choice. Please enter 1 or 2. or 3 or 4.\n");
             break;
     }
-
 }
