@@ -41,10 +41,10 @@ int fileSet();
  * @brief Delays the execution of the program based on the specified mode.
  * 
  * @param mode The mode of delay. Valid values are 1, 2, 3, or 4.
- *             - Mode 1: Fastest delay
- *             - Mode 2: Fast delay
- *             - Mode 3: Medium delay
- *             - Mode 4: Slow delay
+ *             - Mode 1: Slow delay
+ *             - Mode 2: Medium delay
+ *             - Mode 3: Fast delay
+ *             - Mode 4: Fastest delay
  */
 //speed of snake
 void delay(int mode){
