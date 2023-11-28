@@ -4,11 +4,10 @@
 
 int main() {
     srand(time(NULL));
-    printf("Welcome to InfinityArcade!\n");
-    printf("This arcade create and develop by TACTYCAM Team\n");
-
     int choice;
     do {
+        printf("Welcome to InfinityArcade!\n");
+        printf("This arcade create and develop by TACTYCAM Team\n");
         printf("\nMenu:\n");
         printf("1. Tic Tac Toe\n"); //this game done + comment
         printf("2. Guessing Number\n"); //this game done + comment
@@ -29,7 +28,7 @@ int main() {
                 system("C:/Users/akani/OneDrive/Documents/VSC/InfinityArcadeByTACTYCAM/RockPaperSissor-Omgnatggboy/RockPaperScissorOri.exe");
                  break;
             case 4:
-                system("C:/Users/akani/OneDrive/Documents/VSC/InfinityArcadeByTACTYCAM/Pong-pptCheer/pong-LuXeVi1.exe");
+                system("C:/Users/akani/OneDrive/Documents/VSC/InfinityArcadeByTACTYCAM/Pong-pptCheer/pong-LuXeVi1-3.exe");
                 break;
             case 5:
                 system("C:/Users/akani/OneDrive/Documents/VSC/InfinityArcadeByTACTYCAM/Snake-Kanyaphat10/Snake-5.c");
