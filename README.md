@@ -38,7 +38,7 @@ Team name: TACTYCAM
 | Arkkhanirut Pandej     | 66070501062   | <arkkhanirut.pand@kmutt.ac.th>       |[@LuXeVi1](https://github.com/LuXeVi1)|
 | Khunnapat Aubontara | 66070501068   | <khunnapat.aubo@kmutt.ac.th>      |[@Omgnatggboy](https://github.com/Omgnatggboy)|
 | Jantarat sanglao      | 66070501070   | <jantarat.sang@kmutt.ac.th>       |[@jantarat32443](https://github.com/jantarat32443)|
-| Supisara Wongphatthanakit     | 66070501066   | <supisara.wong@kmutt.ac.th>       |[@a51w](https://github.com/a51w)|
+| Supisara Wongphatthanakit     | 66070501082   | <supisara.wong@kmutt.ac.th>       |[@a51w](https://github.com/a51w)|
 
 
 
